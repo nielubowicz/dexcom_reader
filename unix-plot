@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# This script combines two local scripts (unix-print and gplot.gp) to format and plot CGM data using GNUplot. Optionally, a start and end date may be supplied to limit the data plotted
+# 	If both are omitted, all data is plotted.
+# 	If only start date is supplied, data from that day to the present is plotted
+# 	If both are supplied, only data between the two timestamps is plotted
+# Output: graph.png in local directory
+# Optional parameters: 
+# 1- startdate -- must be same time format as unix-print (YYYY-mm-dd-HH:MM:SS) 
+# 2- enddate --  must be same time format as unix-print (YYYY-mm-dd-HH:MM:SS) 
+
+if [ -z "$1" ] && [ -z "$2" ]
+then
+  ./unix-print | gnuplot gplot.gp
+elif [ -z "$2" ]
+then
+  ./unix-print | gnuplot -e "startdate='$1'" gplot.gp
+else
+  ./unix-print | gnuplot -e "startdate='$1'" -e "enddate='$2'" gplot.gp
+fi

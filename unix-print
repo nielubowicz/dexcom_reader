@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# This script reads from Dexcom data (EGV_DATA) records and prints them in a unix-friendly way
+# I have set a default file to read from here, but it would be easy to change
+# Removes unnecessary text, formats timestamp
+# Output: YYYY-mm-dd-HH:MM:SS \t CGMReading
+
+cat /var/log/dexcom.log | cut -d"(" -f1 | sed -e "s/\: CGM BG\:/   /" | sed -e "s/\([0-9]\) \([0-9]\)/\1-\2/"
